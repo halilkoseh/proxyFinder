@@ -2,11 +2,11 @@ import re
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
 
 def get_ip_ports_from_website1():
     options = webdriver.ChromeOptions()
     options.add_argument("--incognito")
-    options.add_argument("--headless")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36")
     driver = webdriver.Chrome(options=options)
 
@@ -30,7 +30,6 @@ def get_ip_ports_from_website2():
     options = webdriver.ChromeOptions()
     options.add_argument("--incognito")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36")
-    options.add_argument("--headless")
     driver = webdriver.Chrome(options=options)
 
     driver.get("https://free-proxy-list.net/")
@@ -50,16 +49,19 @@ def get_ip_ports_from_website2():
     return text.strip().split('\n')
 
 def get_ip_ports_from_website3():
+    
     options = webdriver.ChromeOptions()
     options.add_argument("--incognito")
-    options.add_argument("--headless")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36")
     driver = webdriver.Chrome(options=options)
     
-    
-    driver.get("https://proxyscrape.com/free-proxy-list")
-
+        
     time.sleep(5)
+
+    driver.get("https://proxyscrape.com/free-proxy-list")
+    
+    time.sleep(5)
+
 
     ip_ports_list = []
 
@@ -102,18 +104,20 @@ def check_proxies(proxy_list):
     options = webdriver.ChromeOptions()
     options.add_argument("--incognito")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36")
-    options.add_argument("--headless")
     driver = webdriver.Chrome(options=options)
 
     driver.get("https://proxyscrape.com/online-proxy-checker")
 
-    textarea = driver.find_element(By.ID, "proxy_list")
+    textarea = driver.find_element(By.XPATH, "//textarea[@placeholder='0.0.0.0:1234\n127.0.0.1:3434\nlocalhost:8080' and contains(@class, 'form-control')]")
     textarea.clear()
     textarea.send_keys("\n".join(proxy_list))
 
-    check_button = driver.find_element(By.ID, "proxy_button")
-    check_button.click()
-
+    # Butonun CSS Selector kullanılarak bulunması ve tıklanması
+    check_button = driver.find_element(By.CSS_SELECTOR, "div.btn-style-lg.text-uppercase.btn.btn-primary.fw-bold.m-auto")
+    
+    # ActionChains kullanarak tıklama işlemi
+    actions = ActionChains(driver)
+    actions.move_to_element(check_button).click().perform()
     time.sleep(15)
 
     valid_proxies = []
@@ -128,13 +132,16 @@ def check_proxies(proxy_list):
 
     return valid_proxies
 
+
+
+
 def write_to_file(file_path, data):
     with open(file_path, 'w') as file:
         for item in data:
             file.write(item + '\n')
 
 def main():
-    output_file = "/Users/aitchkay/Desktop/new_ip_ports.txt"
+    output_file = "new_ip_ports.txt"
     
     # Sonsuz bir döngü oluştur
     while True:
@@ -151,7 +158,7 @@ def main():
 
         valid_proxies = check_proxies(ip_ports_website1 + ip_ports_website2 + ip_ports_website3)
 
-        write_to_file("/Users/aitchkay/Desktop/valid_proxy.txt", valid_proxies)
+        write_to_file("valid_proxy.txt", valid_proxies)
 
         print("\n\nÇalışan proxy'ler valid_proxy.txt dosyasına kaydedildi.")
 
@@ -159,7 +166,6 @@ def main():
 
         print("\nToplam çalışan proxy sayısı: ", len(valid_proxies))
 
-        # Belirli bir süre bekle (örneğin, 5 dakika)
         time.sleep(300)
 
 if __name__ == "__main__":
