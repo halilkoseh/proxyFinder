@@ -1,32 +1,9 @@
-  # Proxy Finder
+Proxy Finder
 
-    This is a Python application that helps you find and test proxy servers.
+Proxy Finder is a Python application designed to help you find and test proxy servers effortlessly. Leveraging web scraping, it provides a reliable list of proxies for various use cases.
 
-    ## Installation
+To get started, clone the repository using git clone <repository-url> and navigate into the project directory with cd proxyFinder. Set up a virtual environment by running python3 -m venv venv and activate it using source venv/bin/activate on Linux/Mac or venv\Scripts\activate on Windows. Install the required dependencies by running pip install mysql-connector-python.
 
-    1. Clone the repository:
+Once set up, activate the virtual environment (if not already activated) using source /path/to/proxyFinder/venv/bin/activate and run the script with python proxyList.py. Follow the on-screen instructions to search for and test proxy servers.
 
-
-
-    ## Usage
-
-    1. Run the proxyList.py script:
-
-
-    2. Follow the on-screen instructions to search and test proxy servers.
-
-    ## Contributing
-
-    Contributions are welcome! If you have any suggestions or improvements, please submit a pull request.
-
- 
-    python3 -m venv venv          
-    source venv/bin/activate  
-    pip install mysql-connector-python                               
-    source /Users/aitchkay/Desktop/proxyFinder/venv/bin/activate     
-    python3 -m venv .venv                                                                               
-    source .venv/bin/activate                                                                            
-
-
-
-
+Contributions are welcome! If you have suggestions or code improvements, feel free to submit a pull request or open an issue. Let's collaborate to make Proxy Finder even better! 🚀
